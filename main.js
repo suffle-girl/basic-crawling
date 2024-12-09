@@ -22,11 +22,14 @@ const html = response.body;
 const $ = cheerio.load(html);
 
 // Find all the links on the website
-const links = $("a[href]");
-
 const productLinks = $("a.product-item__title");
 
 for (const link of productLinks) {
-  const url = $(link).attr("href");
+  const relativeUrl = $(link).attr("href");
+
+  // Resolve relative URLs
+  const absoluteUrl = new URL(relativeUrl, WEBSITE_URL);
+  const url = absoluteUrl.href;
+
   console.log(url);
 }
